@@ -6,18 +6,25 @@ import Shelf from './Shelf'
 
 function Home(props){
 
+    //Array object for shelves.
     const shelves = [
       {id: "currentlyReading", title: 'Currently Reading' },
       {id: "wantToRead", title: 'Want to Read'},
       {id: "read", title: 'Read'}
     ];
     
-    // Declaración de una variable de estado que llamaremos "count"
+    // Declaratation useState
     const [books, setBooks] = useState([]);
+
+    const updateShelf = (book, updatedhelf) =>{
+        BookAPI.update(book, updatedhelf)
+        BookAPI.getAll().then(book => setBooks(book));
+    }
+
 
     useEffect(() => {
         BookAPI.getAll().then(book => setBooks(book))
-      }, []);
+    }, [books, setBooks]);
 
 
     return (
@@ -31,7 +38,8 @@ function Home(props){
                     <div key={shelf.id}>
                         <Shelf 
                           title = {shelf.title}
-                          books = {books.filter(b => b.shelf === shelf.id)}
+                          books = {  books.filter(b => b.shelf === shelf.id) }
+                          onChange = { updateShelf }
                         />                        
                     </div>
                 )}

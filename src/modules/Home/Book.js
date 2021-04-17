@@ -4,13 +4,13 @@ function Book(props) {
     // Declara una nueva variable de estado, que llamaremos "count".
     //const [count, setCount] = useState(0);
 
-    const {data} = props;
+    const {data, onChange} = props;
 
-    const handleShelfUpdate = e => {
-        let newVal = e.target.value;
-        props.updateShelf(this, newVal);
+    const handleShelfUpdate = (e) => {
+        let selectorBook = e.target.value;
+        onChange(data, selectorBook);
     };
-    
+
     return (
             <div className="book">
                 <div className="book-top">
@@ -19,7 +19,7 @@ function Book(props) {
                 <div className="book-shelf-changer">
                     <select 
                         value={data.shelf ? data.shelf : "none"}
-                        onChange={this.handleShelfUpdate}
+                        onChange={handleShelfUpdate}
                     >
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
