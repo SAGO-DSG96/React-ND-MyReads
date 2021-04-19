@@ -9,6 +9,9 @@ function Search(props){
 
     const [search, setSearch] = useState("");
     const [books, setBooks] = useState([]);
+    const [booksInShelf, setBooksInShelf] = useState([]);
+    const [loading, setloading] = useState(true)
+
 
     const updateShelf = (book, updatedhelf) =>{
         BookAPI.update(book, updatedhelf)
@@ -17,16 +20,28 @@ function Search(props){
     useEffect(() => {
         if(search !== ''){
              BookAPI.search(search, 20).then((listbook) => {
-
                 //if call returns empty/error set booksQuery prop to empty
                 if (listbook !== undefined && listbook.error !== "empty query") {
+                    BookAPI.getAll().then(b => setBooksInShelf(b));
+
+                    listbook.map((result) => {
+                        booksInShelf.forEach((book) => {
+                          if (book.id === result.id) 
+                          result.shelf = book.shelf;
+                        });
+                        return result;
+                      });
+
                     setBooks(listbook);
                 } else {
                     setBooks([]);
                 }
             })
-        }else{setBooks([])}
-    },[search, setSearch])
+        }else{
+            setBooks([]);
+            setloading(false)
+        }
+    },[search, setSearch, booksInShelf])
 
     return(
         <div className="app">
@@ -38,6 +53,7 @@ function Search(props){
                 </div>
                 </div>
                 <div className="search-books-results">
+                {loading? <p>loading..</p> :
                 <ol className="books-grid">
                     {
                         books.map((key) => (
@@ -49,6 +65,7 @@ function Search(props){
                         )
                     )}
                 </ol>
+                }
                 </div>
             </div>
         </div>

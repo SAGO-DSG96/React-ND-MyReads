@@ -9,17 +9,6 @@ function Book(props) {
         onChange(data, selectorBook);
     };
 
-    const isHaveAuthor = () => {
-        if(data !==[]){
-            data.authors.reduce((authorsStr, author, index) => {
-                if (index === 0) {
-                    return author;
-                }
-                return `${authorsStr}, ${author}`;
-            }, '')
-        }
-    }
-
     return (
             <div className="book">
                 <div className="book-top">
@@ -39,7 +28,14 @@ function Book(props) {
                 </div>
                 </div>
                 <div className="book-title">{data.title}</div>
-                <div className="book-authors">{isHaveAuthor}</div>
+                <div className="book-authors">{
+                    data.authors ? data.authors.reduce((authorsStr, author, index) => {
+                    if (index === 0) {
+                        return author;
+                    }
+                    return `${authorsStr}, ${author}`;
+                }, '') : ''}
+                </div>
             </div>
     );
 }

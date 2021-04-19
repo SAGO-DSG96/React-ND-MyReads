@@ -15,6 +15,7 @@ function Home(props){
     
     // Declaratation useState
     const [books, setBooks] = useState([]);
+    const [loading, setloading] = useState(true)
 
     const updateShelf = (book, updatedhelf) =>{
         BookAPI.update(book, updatedhelf)
@@ -22,12 +23,13 @@ function Home(props){
 
 
     useEffect(() => {
-        BookAPI.getAll().then(book => setBooks(book))
+        BookAPI.getAll().then(book => setBooks(book)).then(setloading(false))
     }, [books, setBooks]);
 
 
     return (
         <div className="app">
+        {  loading ? <p>loading...</p> : 
             <div className="list-books">
             <div className="list-books-title">
             <h1>MyReads</h1>
@@ -49,7 +51,9 @@ function Home(props){
                 </Link>
             </div>
             </div>
+        }
         </div>
+        
     );
 }
 
