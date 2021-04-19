@@ -18,7 +18,6 @@ function Home(props){
 
     const updateShelf = (book, updatedhelf) =>{
         BookAPI.update(book, updatedhelf)
-        BookAPI.getAll().then(book => setBooks(book));
     }
 
 

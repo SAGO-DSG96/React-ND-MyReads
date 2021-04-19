@@ -1,8 +1,6 @@
 import React from 'react';
 
 function Book(props) {
-    // Declara una nueva variable de estado, que llamaremos "count".
-    //const [count, setCount] = useState(0);
 
     const {data, onChange} = props;
 
@@ -10,6 +8,17 @@ function Book(props) {
         let selectorBook = e.target.value;
         onChange(data, selectorBook);
     };
+
+    const isHaveAuthor = () => {
+        if(data !==[]){
+            data.authors.reduce((authorsStr, author, index) => {
+                if (index === 0) {
+                    return author;
+                }
+                return `${authorsStr}, ${author}`;
+            }, '')
+        }
+    }
 
     return (
             <div className="book">
@@ -30,7 +39,7 @@ function Book(props) {
                 </div>
                 </div>
                 <div className="book-title">{data.title}</div>
-                <div className="book-authors">{data.authors}</div>
+                <div className="book-authors">{isHaveAuthor}</div>
             </div>
     );
 }
